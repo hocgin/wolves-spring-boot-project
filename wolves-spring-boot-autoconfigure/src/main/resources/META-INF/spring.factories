@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  in.hocg.wolves.spring.boot.autoconfigure.WolvesAutoConfiguration
