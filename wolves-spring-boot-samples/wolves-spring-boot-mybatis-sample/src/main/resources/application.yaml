@@ -29,6 +29,8 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
+        login-password: admin
+        login-username: admin
       filter:
         stat:
           log-slow-sql: true
@@ -38,8 +40,6 @@ spring:
           config:
             multi-statement-allow: true
       reset-stat-enable: true
-      use-global-data-source-stat: true
-      filters: stat,wall
   wolves:
     slave:
       - name: n1
