@@ -27,6 +27,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+<!--            <scope>runtime</scope>-->
+        </dependency>
 
 
         <!-- Spring Boot dependencies -->

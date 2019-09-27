@@ -1,11 +1,11 @@
 package in.hocg.wolves.spring.boot.autoconfigure;
 
+import in.hocg.wolves.spring.boot.autoconfigure.pool.DataSourceHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -13,8 +13,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,36 +33,30 @@ public class WolvesAutoConfiguration {
     @Bean
     @Primary
     public DataSource dataSource() {
-        DataSource dataSource = dataSourceProperties.initializeDataSourceBuilder().build();
-        Map<Object, Object> dataSources = getDataSources(properties.getSlave());
-        dataSources.put(Constant.MASTER, dataSource);
+        Map<Object, Object> dataSources;
+        DataSourceHelper dataSourceHelper = getDataSourceHelper();
+        dataSources = dataSourceHelper.getSlaveDataSources(properties.getSlave());
+        DataSource masterDataSource = dataSourceHelper.getMasterDataSource(dataSourceProperties);
+        dataSources.put(Constant.MASTER, masterDataSource);
+        
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         dynamicDataSource.setTargetDataSources(dataSources);
-        dynamicDataSource.setDefaultTargetDataSource(dataSource);
+        dynamicDataSource.setDefaultTargetDataSource(masterDataSource);
         DynamicDataSourceHolder.ALL_DATA_SOURCE = dataSources.keySet();
         return dynamicDataSource;
+    }
+    
+    private DataSourceHelper getDataSourceHelper() {
+        try {
+            return properties.getHelperClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new UnsupportedOperationException("请配置正确的" + DataSourceHelper.class.getName());
+        }
     }
     
     @Bean
     public DynamicDataSourceAspect aspect() {
         return new DynamicDataSourceAspect();
-    }
-    
-    private Map<Object, Object> getDataSources(List<WolvesProperties.WolvesDataSourceProperties> dataSourceProperties) {
-        Map<Object, Object> dataSources = new HashMap<>();
-        for (WolvesProperties.WolvesDataSourceProperties properties : dataSourceProperties) {
-            dataSources.put(properties.getFlag(), getDataSource(properties));
-        }
-        return dataSources;
-    }
-    
-    private DataSource getDataSource(WolvesProperties.WolvesDataSourceProperties properties) {
-        return DataSourceBuilder.create()
-                .url(properties.getUrl())
-                .driverClassName(properties.getDriverClassName())
-                .username(properties.getUsername())
-                .password(properties.getPassword())
-                .build();
     }
     
     @Bean

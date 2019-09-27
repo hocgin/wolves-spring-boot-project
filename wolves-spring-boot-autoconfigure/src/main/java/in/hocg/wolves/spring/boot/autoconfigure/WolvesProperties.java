@@ -1,5 +1,7 @@
 package in.hocg.wolves.spring.boot.autoconfigure;
 
+import in.hocg.wolves.spring.boot.autoconfigure.pool.AutoDataSourceHelper;
+import in.hocg.wolves.spring.boot.autoconfigure.pool.DataSourceHelper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -22,6 +24,8 @@ import java.util.List;
 @ConfigurationProperties(prefix = WolvesProperties.PREFIX)
 public class WolvesProperties {
     public static final String PREFIX = "spring.wolves";
+    
+    private Class<? extends DataSourceHelper> helperClass = AutoDataSourceHelper.class;
     
     private List<WolvesDataSourceProperties> slave = new ArrayList<>();
     
