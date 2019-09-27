@@ -1,22 +1,23 @@
 package in.hocg.wolves.spring.boot.autoconfigure;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import in.hocg.wolves.spring.boot.autoconfigure.pool.DataSourceHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
@@ -28,13 +29,13 @@ import java.util.Map;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnClass(DruidDataSource.class)
 @AutoConfigureBefore(DruidDataSourceAutoConfigure.class)
 @ConditionalOnProperty(prefix = WolvesProperties.PREFIX, name = "enabled", matchIfMissing = true)
 @EnableConfigurationProperties({WolvesProperties.class, DataSourceProperties.class})
-public class WolvesAutoConfiguration {
+public class WolvesAutoConfiguration implements EnvironmentAware {
     private final WolvesProperties properties;
     private final DataSourceProperties dataSourceProperties;
+    private Environment environment;
     
     @Bean
     @Primary
@@ -54,8 +55,8 @@ public class WolvesAutoConfiguration {
     
     private DataSourceHelper getDataSourceHelper() {
         try {
-            return properties.getHelperClass().newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            return properties.getHelperClass().getConstructor(Environment.class).newInstance(environment);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw DynamicDataSourceException.wrap("请配置正确的" + DataSourceHelper.class.getName());
         }
     }
@@ -70,4 +71,8 @@ public class WolvesAutoConfiguration {
         return new DataSourceTransactionManager(dataSource());
     }
     
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
 }

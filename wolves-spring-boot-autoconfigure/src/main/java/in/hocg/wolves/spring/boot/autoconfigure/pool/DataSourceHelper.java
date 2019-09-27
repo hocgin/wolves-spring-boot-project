@@ -2,7 +2,9 @@ package in.hocg.wolves.spring.boot.autoconfigure.pool;
 
 import com.google.common.collect.Maps;
 import in.hocg.wolves.spring.boot.autoconfigure.WolvesProperties;
+import lombok.Getter;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -14,7 +16,13 @@ import java.util.Map;
  *
  * @author hocgin
  */
-public interface DataSourceHelper {
+@Getter
+public abstract class DataSourceHelper {
+    private Environment environment;
+    
+    public DataSourceHelper(Environment environment) {
+        this.environment = environment;
+    }
     
     /**
      * 获取主数据源
@@ -22,7 +30,7 @@ public interface DataSourceHelper {
      * @param properties 配置
      * @return
      */
-    DataSource getMasterDataSource(DataSourceProperties properties);
+    public abstract DataSource getMasterDataSource(DataSourceProperties properties);
     
     /**
      * 获取从数据源
@@ -30,7 +38,7 @@ public interface DataSourceHelper {
      * @param properties 配置
      * @return
      */
-    DataSource getSlaveDataSource(WolvesProperties.WolvesDataSourceProperties properties);
+    public abstract DataSource getSlaveDataSource(WolvesProperties.WolvesDataSourceProperties properties);
     
     /**
      * 获取多从数据源
@@ -38,7 +46,7 @@ public interface DataSourceHelper {
      * @param properties 配置
      * @return
      */
-    default Map<Object, Object> getSlaveDataSources(List<WolvesProperties.WolvesDataSourceProperties> properties) {
+    public Map<Object, Object> getSlaveDataSources(List<WolvesProperties.WolvesDataSourceProperties> properties) {
         Map<Object, Object> dataSources = Maps.newHashMap();
         for (WolvesProperties.WolvesDataSourceProperties prop : properties) {
             dataSources.put(prop.getName(), getSlaveDataSource(prop));

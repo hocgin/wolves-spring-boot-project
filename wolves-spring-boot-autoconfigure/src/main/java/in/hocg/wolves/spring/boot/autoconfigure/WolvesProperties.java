@@ -1,5 +1,6 @@
 package in.hocg.wolves.spring.boot.autoconfigure;
 
+import com.google.common.collect.Maps;
 import in.hocg.wolves.spring.boot.autoconfigure.pool.AutoDataSourceHelper;
 import in.hocg.wolves.spring.boot.autoconfigure.pool.DataSourceHelper;
 import lombok.Data;
@@ -10,6 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hocgin on 2019-09-25.
@@ -39,5 +41,6 @@ public class WolvesProperties {
         private String driverClassName;
         private String username;
         private String password;
+        private Map<String, String> settings = Maps.newHashMap();
     }
 }

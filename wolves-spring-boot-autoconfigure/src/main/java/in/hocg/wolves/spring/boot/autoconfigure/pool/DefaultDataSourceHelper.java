@@ -3,6 +3,7 @@ package in.hocg.wolves.spring.boot.autoconfigure.pool;
 import in.hocg.wolves.spring.boot.autoconfigure.WolvesProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
 
@@ -13,7 +14,11 @@ import javax.sql.DataSource;
  *
  * @author hocgin
  */
-public class DefaultDataSourceHelper implements DataSourceHelper {
+public class DefaultDataSourceHelper extends DataSourceHelper {
+    
+    public DefaultDataSourceHelper(Environment environment) {
+        super(environment);
+    }
     
     @Override
     public DataSource getMasterDataSource(DataSourceProperties properties) {

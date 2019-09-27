@@ -29,8 +29,6 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
-        login-password: admin
-        login-username: admin
       filter:
         stat:
           log-slow-sql: true
@@ -40,6 +38,8 @@ spring:
           config:
             multi-statement-allow: true
       reset-stat-enable: true
+      use-global-data-source-stat: true
+      filters: stat,wall
   wolves:
     slave:
       - name: n1
@@ -47,6 +47,19 @@ spring:
         driver-class-name: org.mariadb.jdbc.Driver
         username: root
         password: hocgin
+        initial-size: 13
+        max-active: 100
+        min-idle: 10
+        max-wait: 60000
+        pool-prepared-statements: true
+        max-pool-prepared-statement-per-connection-size: 20
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        use-global-data-source-stat: true
+        filters: stat,wall
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 

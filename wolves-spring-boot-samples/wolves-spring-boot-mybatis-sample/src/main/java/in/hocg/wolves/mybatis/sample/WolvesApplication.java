@@ -18,7 +18,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 @RestController
 @SpringBootApplication
-//@SpringBootApplication(exclude = WolvesAutoConfiguration.class)
 public class WolvesApplication {
     
     public static void main(String[] args) {

@@ -2,8 +2,11 @@ package in.hocg.wolves.spring.boot.autoconfigure.pool;
 
 import in.hocg.wolves.spring.boot.autoconfigure.WolvesProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -15,10 +18,14 @@ import java.util.Objects;
  *
  * @author hocgin
  */
-public class AutoDataSourceHelper implements DataSourceHelper {
+public class AutoDataSourceHelper extends DataSourceHelper {
     
     private static final String DRUID_DATA_SOURCE = "com.alibaba.druid.pool.DruidDataSource";
     private DataSourceHelper dataSourceHelper;
+    
+    public AutoDataSourceHelper(Environment environment) {
+        super(environment);
+    }
     
     private DataSourceHelper getDataSourceHelper() {
         if (Objects.nonNull(dataSourceHelper)) {
@@ -27,9 +34,9 @@ public class AutoDataSourceHelper implements DataSourceHelper {
         
         try {
             Class.forName(AutoDataSourceHelper.DRUID_DATA_SOURCE);
-            dataSourceHelper = new DruidDataSourceHelper();
+            dataSourceHelper = new DruidDataSourceHelper(getEnvironment());
         } catch (ClassNotFoundException e) {
-            dataSourceHelper = new DefaultDataSourceHelper();
+            dataSourceHelper = new DefaultDataSourceHelper(getEnvironment());
         }
         return dataSourceHelper;
     }
@@ -42,5 +49,10 @@ public class AutoDataSourceHelper implements DataSourceHelper {
     @Override
     public DataSource getSlaveDataSource(WolvesProperties.WolvesDataSourceProperties properties) {
         return getDataSourceHelper().getSlaveDataSource(properties);
+    }
+    
+    @Override
+    public Map<Object, Object> getSlaveDataSources(List<WolvesProperties.WolvesDataSourceProperties> properties) {
+        return getDataSourceHelper().getSlaveDataSources(properties);
     }
 }
