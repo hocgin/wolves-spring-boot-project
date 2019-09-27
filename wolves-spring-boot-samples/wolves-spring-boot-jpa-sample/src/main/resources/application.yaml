@@ -14,11 +14,6 @@ spring:
     username: root
     password: hocgin
   wolves:
-    master:
-      url: jdbc:mariadb://mysql.localhost:3306/db_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-      driver-class-name: org.mariadb.jdbc.Driver
-      username: root
-      password: hocgin
     slave:
       - flag: n1
         url: jdbc:mariadb://mysql.localhost:3306/db_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true

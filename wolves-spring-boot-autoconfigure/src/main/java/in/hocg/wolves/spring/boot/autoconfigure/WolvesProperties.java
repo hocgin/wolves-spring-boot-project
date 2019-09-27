@@ -23,8 +23,6 @@ import java.util.List;
 public class WolvesProperties {
     public static final String PREFIX = "spring.wolves";
     
-    private WolvesDataSourceProperties master = new WolvesDataSourceProperties();
-    
     private List<WolvesDataSourceProperties> slave = new ArrayList<>();
     
     @Data

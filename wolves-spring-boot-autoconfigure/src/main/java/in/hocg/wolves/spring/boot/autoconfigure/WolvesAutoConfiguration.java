@@ -3,6 +3,7 @@ package in.hocg.wolves.spring.boot.autoconfigure;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -26,15 +27,16 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = WolvesProperties.PREFIX, name = "enabled", matchIfMissing = true)
-@EnableConfigurationProperties(WolvesProperties.class)
+@EnableConfigurationProperties({WolvesProperties.class, DataSourceProperties.class})
 public class WolvesAutoConfiguration {
     private final WolvesProperties properties;
+    private final DataSourceProperties dataSourceProperties;
     
     @Bean
     @Primary
     public DataSource dataSource() {
+        DataSource dataSource = dataSourceProperties.initializeDataSourceBuilder().build();
         Map<Object, Object> dataSources = getDataSources(properties.getSlave());
-        DataSource dataSource = getDataSource(properties.getMaster());
         dataSources.put(Constant.MASTER, dataSource);
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         dynamicDataSource.setTargetDataSources(dataSources);
@@ -57,13 +59,12 @@ public class WolvesAutoConfiguration {
     }
     
     private DataSource getDataSource(WolvesProperties.WolvesDataSourceProperties properties) {
-        DataSource dataSource = DataSourceBuilder.create()
+        return DataSourceBuilder.create()
                 .url(properties.getUrl())
                 .driverClassName(properties.getDriverClassName())
                 .username(properties.getUsername())
                 .password(properties.getPassword())
                 .build();
-        return dataSource;
     }
     
     @Bean
