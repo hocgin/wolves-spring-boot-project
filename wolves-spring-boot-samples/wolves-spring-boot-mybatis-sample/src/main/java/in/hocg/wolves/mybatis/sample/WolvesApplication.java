@@ -1,9 +1,7 @@
-package in.hocg.wolves.sample;
+package in.hocg.wolves.mybatis.sample;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 /**
  * Created by hocgin on 2019-09-25.
@@ -11,8 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  *
  * @author hocgin
  */
-@EnableJpaAuditing
-@SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
+@SpringBootApplication
 public class WolvesApplication {
     
     public static void main(String[] args) {

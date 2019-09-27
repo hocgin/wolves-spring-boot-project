@@ -1,4 +1,4 @@
-package in.hocg.wolves.sample;
+package in.hocg.wolves.mybatis.sample;
 
 import in.hocg.wolves.spring.boot.autoconfigure.DynamicDataSourceHolder;
 import org.junit.Test;
@@ -20,29 +20,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class AllTests {
     
     @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private AccountService accountService;
+    private ExampleService exampleService;
     
     @Test
     public void test() {
-        Account entity = new Account();
-        entity.setName("666" + System.currentTimeMillis());
-        accountRepository.save(entity);
+        exampleService.find2();
     }
-    
     
     @Test
     public void testSlave() {
-        Account entity = new Account();
         DynamicDataSourceHolder.setDataSource("n1");
-        entity.setName("666" + System.currentTimeMillis());
-        accountRepository.save(entity);
+        exampleService.find2();
         DynamicDataSourceHolder.clear();
     }
     
     @Test
     public void testAnnotation() {
-        accountService.useN1();
+        exampleService.find1();
     }
 }

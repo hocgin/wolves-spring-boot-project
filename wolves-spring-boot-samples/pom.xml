@@ -9,14 +9,25 @@
         <relativePath>../wolves-spring-boot-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
 
-    <artifactId>wolves-spring-boot-sample</artifactId>
+    <artifactId>wolves-spring-boot-samples</artifactId>
 
     <properties>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
+    <modules>
+        <module>wolves-spring-boot-jpa-sample</module>
+        <module>wolves-spring-boot-mybatis-sample</module>
+    </modules>
+
     <dependencies>
+        <dependency>
+            <groupId>in.hocg.wolves</groupId>
+            <artifactId>wolves-spring-boot-starter</artifactId>
+            <version>${revision}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -26,24 +37,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>in.hocg.wolves</groupId>
-            <artifactId>wolves-spring-boot-starter</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
     </dependencies>
-
 
 </project>

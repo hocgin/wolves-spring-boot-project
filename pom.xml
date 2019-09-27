@@ -19,7 +19,7 @@
         <module>wolves-spring-boot-parent</module>
         <module>wolves-spring-boot-autoconfigure</module>
         <module>wolves-spring-boot-starter</module>
-        <module>wolves-spring-boot-sample</module>
+        <module>wolves-spring-boot-samples</module>
     </modules>
 
     <properties>
