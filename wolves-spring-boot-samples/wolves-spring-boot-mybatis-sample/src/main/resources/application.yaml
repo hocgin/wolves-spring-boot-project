@@ -32,19 +32,17 @@ spring:
       filter:
         stat:
           log-slow-sql: true
-          slow-sql-millis: 1000
+          slow-sql-millis: 1
           merge-sql: true
         wall:
           config:
             multi-statement-allow: true
+      reset-stat-enable: true
+      use-global-data-source-stat: true
+      filters: stat,wall
   wolves:
     slave:
       - name: n1
-        url: jdbc:mariadb://mysql.localhost:3306/db_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
-        driver-class-name: org.mariadb.jdbc.Driver
-        username: root
-        password: hocgin
-      - name: n2
         url: jdbc:mariadb://mysql.localhost:3306/db_test?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
         driver-class-name: org.mariadb.jdbc.Driver
         username: root

@@ -6,6 +6,7 @@ import in.hocg.wolves.spring.boot.autoconfigure.WolvesProperties;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 /**
  * Created by hocgin on 2019-09-27.
@@ -23,6 +24,7 @@ public class DruidDataSourceHelper implements DataSourceHelper {
         dataSource.setUsername(properties.getUsername());
         dataSource.setPassword(properties.getPassword());
         dataSource.setDriverClassName(properties.getDriverClassName());
+        setDataSourceSetting(dataSource);
         return dataSource;
     }
     
@@ -33,6 +35,20 @@ public class DruidDataSourceHelper implements DataSourceHelper {
         dataSource.setUsername(properties.getUsername());
         dataSource.setPassword(properties.getPassword());
         dataSource.setDriverClassName(properties.getDriverClassName());
+        setDataSourceSetting(dataSource);
         return dataSource;
+    }
+    
+    /**
+     * 配置
+     *
+     * @param dataSource
+     */
+    private void setDataSourceSetting(DruidDataSource dataSource) {
+        dataSource.setUseGlobalDataSourceStat(true);
+        try {
+            dataSource.setFilters("stat,wall");
+        } catch (SQLException ignored) {
+        }
     }
 }

@@ -44,3 +44,4 @@ spring:
     - 目前仅适配 Druid 和 Spring Boot 默认支持，其他的请自行实现适配。
 - [x] MyBatis 案例
 - [x] JPA 案例
+- [x] 支持 Druid 监控
