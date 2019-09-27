@@ -9,11 +9,11 @@ import javax.sql.DataSource;
 /**
  * Created by hocgin on 2019-09-27.
  * email: hocgin@gmail.com
+ * 默认数据源
  *
  * @author hocgin
  */
 public class DefaultDataSourceHelper implements DataSourceHelper {
-    
     
     @Override
     public DataSource getMasterDataSource(DataSourceProperties properties) {

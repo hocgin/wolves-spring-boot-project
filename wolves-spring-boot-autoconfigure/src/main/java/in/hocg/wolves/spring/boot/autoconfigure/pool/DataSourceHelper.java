@@ -16,14 +16,32 @@ import java.util.Map;
  */
 public interface DataSourceHelper {
     
+    /**
+     * 获取主数据源
+     *
+     * @param properties 配置
+     * @return
+     */
     DataSource getMasterDataSource(DataSourceProperties properties);
     
+    /**
+     * 获取从数据源
+     *
+     * @param properties 配置
+     * @return
+     */
     DataSource getSlaveDataSource(WolvesProperties.WolvesDataSourceProperties properties);
     
+    /**
+     * 获取多从数据源
+     *
+     * @param properties 配置
+     * @return
+     */
     default Map<Object, Object> getSlaveDataSources(List<WolvesProperties.WolvesDataSourceProperties> properties) {
         Map<Object, Object> dataSources = Maps.newHashMap();
         for (WolvesProperties.WolvesDataSourceProperties prop : properties) {
-            dataSources.put(prop.getFlag(), getSlaveDataSource(prop));
+            dataSources.put(prop.getName(), getSlaveDataSource(prop));
         }
         return dataSources;
     }

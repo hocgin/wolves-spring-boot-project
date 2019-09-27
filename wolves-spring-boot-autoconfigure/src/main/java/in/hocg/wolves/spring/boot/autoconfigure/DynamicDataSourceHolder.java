@@ -22,9 +22,9 @@ public class DynamicDataSourceHolder {
     }
     
     public static String getDataSource() {
-        String flag = CONTEXT_HOLDERS.get();
-        log.debug("当前使用的数据源为: {}", flag);
-        return flag;
+        String name = CONTEXT_HOLDERS.get();
+        log.debug("[Wolves] 当前使用的数据源名称为: {}", name);
+        return name;
     }
     
     public static void clear() {

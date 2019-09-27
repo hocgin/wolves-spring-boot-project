@@ -50,7 +50,7 @@ public class WolvesAutoConfiguration {
         try {
             return properties.getHelperClass().newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new UnsupportedOperationException("请配置正确的" + DataSourceHelper.class.getName());
+            throw DynamicDataSourceException.wrap("请配置正确的" + DataSourceHelper.class.getName());
         }
     }
     

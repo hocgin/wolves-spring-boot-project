@@ -9,6 +9,9 @@ import java.util.Objects;
 /**
  * Created by hocgin on 2019-09-27.
  * email: hocgin@gmail.com
+ * 自动配置数据源
+ * - 支持 Spring Boot 默认
+ * - 支持 Druid
  *
  * @author hocgin
  */

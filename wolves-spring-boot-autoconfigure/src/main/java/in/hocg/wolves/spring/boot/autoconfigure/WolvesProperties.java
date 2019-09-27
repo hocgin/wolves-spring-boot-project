@@ -34,7 +34,7 @@ public class WolvesProperties {
     @ToString
     @NoArgsConstructor
     public static class WolvesDataSourceProperties {
-        private String flag;
+        private String name;
         private String url;
         private String driverClassName;
         private String username;

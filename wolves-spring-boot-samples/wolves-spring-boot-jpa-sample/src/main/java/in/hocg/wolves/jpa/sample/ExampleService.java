@@ -1,6 +1,6 @@
 package in.hocg.wolves.jpa.sample;
 
-import in.hocg.wolves.spring.boot.autoconfigure.SetDataSource;
+import in.hocg.wolves.spring.boot.autoconfigure.UseDataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class ExampleService {
     private final ExampleRepository repository;
     
-    @SetDataSource("n1")
+    @UseDataSource(name = "n1")
     public void find1() {
         repository.findAll();
     }
