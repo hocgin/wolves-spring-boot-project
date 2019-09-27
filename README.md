@@ -38,19 +38,6 @@ spring:
 1. 注解方式，参照 Sample 的测试用例。
 2. 函数方式，参照 Sample 的测试用例。
 
-## 需知
-1. 使用 Druid 作为数据源。
-请使用以下方式排除掉`DruidDataSourceAutoConfigure`.
-```yaml
-@SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
-public class WolvesApplication {
-    
-    public static void main(String[] args) {
-        SpringApplication.run(WolvesApplication.class, args);
-    }
-}
-```
-
 ## 更新
 - [x] 默认为主
 - 兼容多种数据源

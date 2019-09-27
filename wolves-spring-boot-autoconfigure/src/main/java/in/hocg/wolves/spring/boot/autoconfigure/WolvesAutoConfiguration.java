@@ -1,8 +1,12 @@
 package in.hocg.wolves.spring.boot.autoconfigure;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import in.hocg.wolves.spring.boot.autoconfigure.pool.DataSourceHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -24,6 +28,8 @@ import java.util.Map;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
+@ConditionalOnClass(DruidDataSource.class)
+@AutoConfigureBefore(DruidDataSourceAutoConfigure.class)
 @ConditionalOnProperty(prefix = WolvesProperties.PREFIX, name = "enabled", matchIfMissing = true)
 @EnableConfigurationProperties({WolvesProperties.class, DataSourceProperties.class})
 public class WolvesAutoConfiguration {
